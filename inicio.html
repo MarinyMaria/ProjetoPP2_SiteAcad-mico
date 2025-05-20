@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Tela Inicial</title>
+
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #a8e58e; /* verde claro */
+      font-family: Arial, sans-serif;
+      text-align: center;
+    }
+    .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+    .logo {
+      display: grid;
+      grid-template-columns: repeat(3, 75px);
+      grid-gap: 5px;
+      margin-bottom: 80px;
+    }
+    .botao {
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      padding: 12px 30px;
+      margin: 10px;
+      border-radius: 20px;
+      font-size: 18px;
+      cursor: pointer;
+    }
+    .link {
+      margin-top: 10px;
+    }
+    .link a {
+      text-decoration: none;
+      color: #388e3c;
+      font-size: 14px;
+    }
+    .link a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+ 
+  <div class="container">
+    <!-- LOGO ESTILO IF -->
+    <div class="logo">
+        <img src="logo.png" alt="logo do IF" width="300">
+    </div>
+
+    <!-- BOTÕES -->
+  
+    <a href="login.html" class="botao">Entrar</a>
+    <a href="cadastro.html" class="botao">Cadastrar</a>
+    <!-- LINK -->
+    <div class="link">
+      <a href="#">Esqueci minha senha</a>
+    </div>
+  </div>
+</body>
+</html>

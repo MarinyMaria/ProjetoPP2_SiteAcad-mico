@@ -1,0 +1,51 @@
+/* estilo.css */
+
+body {
+    background-color: #a8e58e;
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+  }
+  
+  .container {
+    text-align: center;
+    background-color: #ffffff40;
+    padding: 40px;
+    border-radius: 20px;
+  }
+  
+  input, select {
+    width: 80%;
+    padding: 10px;
+    margin: 10px 0;
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+  }
+  
+  .botao {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 25px;
+    border: none;
+    border-radius: 20px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 10px;
+  }
+  
+  a {
+    display: block;
+    margin-top: 10px;
+    font-size: 14px;
+    color: #2e7d32;
+    text-decoration: none;
+  }
+  
+  a:hover {
+    text-decoration: underline;
+  }
+  
