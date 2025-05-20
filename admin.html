@@ -9,7 +9,6 @@
   <div class="container">
     <h2>Gerenciar Usuários</h2>
 
-    <!-- Formulário de cadastro/edição -->
     <form id="formUsuario" onsubmit="salvarUsuario(event)">
       <input type="hidden" id="idxEdit" value=""> <!-- índice para edição -->
       <input type="text" id="nome" placeholder="Nome completo" required><br>
@@ -25,12 +24,10 @@
       <button type="button" class="botao" onclick="resetForm()">Cancelar</button>
     </form>
 
-    <!-- Pesquisar -->
     <input type="text" id="busca" placeholder="Pesquisar por nome">
     <button onclick="pesquisar()" class="botao">Pesquisar</button>
     <button onclick="listar()" class="botao">Listar Todos</button>
 
-    <!-- Lista de usuários -->
     <h3>Usuários</h3>
     <div id="saida"></div>
   </div>
