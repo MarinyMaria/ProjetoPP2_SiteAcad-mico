@@ -1,0 +1,67 @@
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #a8e58e;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.container {
+  background-color: #d2f3be;
+  padding: 30px;
+  border-radius: 15px;
+  text-align: center;
+  box-shadow: 0 0 10px #7fbf7f;
+  width: 90%;
+  max-width: 400px;
+}
+
+h1 {
+  margin-top: 0;
+  color: #2e7d32;
+}
+
+p {
+  font-size: 14px;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+input[type="email"] {
+  padding: 12px;
+  width: 90%;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  margin-bottom: 15px;
+  font-size: 16px;
+}
+
+button {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  padding: 12px 30px;
+  border-radius: 20px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+button:hover {
+  background-color: #388e3c;
+}
+
+.voltar {
+  display: inline-block;
+  margin-top: 20px;
+  font-size: 14px;
+  color: #2e7d32;
+  text-decoration: none;
+}
+
+.voltar:hover {
+  text-decoration: underline;
+}

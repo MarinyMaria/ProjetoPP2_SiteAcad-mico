@@ -1,0 +1,109 @@
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #a8e58e;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.container {
+  padding: 20px;
+  max-width: 500px;
+  margin: auto;
+}
+
+.topo {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #d2f3be;
+  border-radius: 15px;
+  padding: 15px;
+  margin-bottom: 20px;
+}
+
+.perfil {
+  display: flex;
+  align-items: center;
+}
+
+.icone-user {
+  width: 50px;
+  height: 50px;
+  background-color: white;
+  border-radius: 50%;
+  border: 2px solid #4CAF50;
+  margin-right: 10px;
+}
+
+.texto-user .boas-vindas {
+  margin: 0;
+  font-weight: bold;
+  color: #2e7d32;
+}
+
+.texto-user .nome {
+  margin: 0;
+  font-size: 14px;
+}
+
+.notificacao {
+  font-size: 24px;
+  color: #4CAF50;
+}
+
+h2 {
+  text-align: center;
+  color: #2e7d32;
+  margin-bottom: 10px;
+}
+
+.avaliacao, .ranking {
+  margin-top: 20px;
+}
+
+.semestres {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 10px;
+}
+
+.botao-semestre {
+  background-color: #00cc00;
+  color: white;
+  padding: 20px 25px;
+  border: none;
+  border-radius: 20px;
+  font-size: 18px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+.botao-semestre:hover {
+  background-color: #019901;
+}
+
+hr {
+  margin: 30px 0;
+  border: none;
+  height: 2px;
+  background-color: #c8e6c9;
+}
+
+.ranking-lista {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  flex-wrap: wrap;
+}
+
+.item-ranking {
+  text-align: center;
+}
+
+.item-ranking img {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 12px;
+  border: 2px solid #4CAF50;
+}
