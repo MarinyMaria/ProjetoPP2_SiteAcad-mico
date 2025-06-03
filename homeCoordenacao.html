@@ -4,38 +4,6 @@
   <meta charset="UTF-8">
   <title>Página Inicial</title>
   <link rel="stylesheet" href="home2.css">
-  <style>
- 
-
-
-    .votacao {
-      margin-top: 30px;
-      text-align: center;
-    }
-
-    .votacao select {
-      padding: 10px;
-      font-size: 16px;
-      border-radius: 8px;
-      margin-bottom: 10px;
-    }
-
-    .votacao button {
-      background-color: #4CAF50;
-      color: white;
-      padding: 10px 25px;
-      border: none;
-      border-radius: 20px;
-      font-size: 16px;
-      cursor: pointer;
-    }
-
-    .votacao p {
-      font-size: 14px;
-      color: #555;
-      margin-top: 8px;
-    }
-  </style>
   <script>
     const usuario = JSON.parse(localStorage.getItem("usuarioLogado"));
 
@@ -67,11 +35,15 @@
        nomeTag.textContent = usuario.nome;
      }
     });
+   
+    function logout() {
+    localStorage.removeItem("usuarioLogado");
+    alert("Você saiu da conta.");
+    window.location.href = "login.html";
+  }
   </script>
-</head>  
-
+</head>
 <body>
-  
   <div class="container">
 
     <div class="topo">
@@ -79,12 +51,13 @@
         <div class="icone-user"></div>
         <div class="texto-user">
           <p class="boas-vindas">Bem vindo!</p>
-          <p class="nome">Aluno(a)</p>
+          <p class="nome">Coordenador(a) </p>
         </div>
       </div>
       <button onclick="logout()" class="botao-sair">Sair</button>
       <div class="notificacao">&#128276;</div>
     </div>
+
 
     <section class="avaliacao">
       <h2>Avaliação Docente</h2>
@@ -95,6 +68,7 @@
     </section>
 
     <hr>
+
 
     <section class="ranking">
       <h2>Ranking por semestre</h2>
@@ -107,59 +81,29 @@
           <img src="havana.png" alt="Pessoa 2">
           <p>2025.1</p>
         </div>
+
       </div>
     </section>
-
-    <section class="votacao">
-        <div class="container" style="margin-top: 40px;">
-        <h2>Votação em Docentes</h2>
-        <p>Escolha um docente para votar:</p>
-        <div id="listaCandidatos"></div>
-      </div>
-
-        <div class="container" style="margin-top: 40px;">
-      <h2>🏆 Ranking de Docentes Mais Votados</h2>
-      <table>
-        <thead>
-          <tr>
-            <th>Posição</th>
-            <th>Nome</th>
-            <th>Votos</th>
-          </tr>
-        </thead>
-        <tbody id="rankingTabela"></tbody>
-        </table>
+    <div style="text-align: center; margin-top: 30px;">
+        <a href="gerenciar.html" class="botao">Gerenciar Usuário</a>
+    </div>
+     <div class="container" style="margin-top: 40px;">
+        <h2>🏆 Ranking de Docentes Mais Votados</h2>
+          <table>
+           <thead>
+              <tr>
+                <th>Posição</th>
+                <th>Nome</th>
+                <th>Votos</th>
+              </tr>
+            </thead>
+            <tbody id="rankingTabela"></tbody>
+          </table>
     </div>
     </section>
-
-
-
   </div>
-  
   <script>
-
-    const usuarioLogado = JSON.parse(localStorage.getItem("usuarioLogado"));
-
-    if (!usuarioLogado || usuarioLogado.tipo.toLowerCase() !== "aluno") {
-    alert("Acesso negado! Apenas alunos podem acessar esta área.");
-    window.location.href = "login.html";
-  }
-
-    function logout() {
-    localStorage.removeItem("usuarioLogado");
-    alert("Você saiu da conta.");
-    window.location.href = "login.html";
-  }
-    function votar() {
-      const docente = document.getElementById("docente-select").value;
-      if (docente) {
-        alert("Voto registrado com sucesso para " + docente.replace("prof", "Professor(a) "));
-      } else {
-        alert("Por favor, selecione um docente antes de votar.");
-      }
-    }
-
-    function listarCandidatos() {
+     function listarCandidatos() {
     const container = document.getElementById("listaCandidatos");
     const candidatos = JSON.parse(localStorage.getItem("candidatos")) || [];
     container.innerHTML = "";
@@ -177,46 +121,12 @@
         <button onclick="votar(${index})" style="margin-left:10px;">Votar</button>
       `;
       container.appendChild(div);
+      
     });
   }
-
-  function votar(index) {
-  const emailVotante = prompt("Digite seu email para votar:");
-  if (!emailVotante) return;
-
-  const usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
-  const votante = usuarios.find(u => u.email.toLowerCase() === emailVotante.toLowerCase());
-
-  if (!votante) {
-    alert("Email não cadastrado. Apenas usuários registrados podem votar.");
-    return;
-  }
-
-  let votosRegistrados = JSON.parse(localStorage.getItem("votosRegistrados")) || {};
-
-  if (votosRegistrados[emailVotante.toLowerCase()]) {
-    alert("Você já votou.");
-    return;
-  }
-
-  let candidatos = JSON.parse(localStorage.getItem("candidatos")) || [];
-  candidatos[index].votos += 1;
-  localStorage.setItem("candidatos", JSON.stringify(candidatos));
-
-  votosRegistrados[emailVotante.toLowerCase()] = true;
-  localStorage.setItem("votosRegistrados", JSON.stringify(votosRegistrados));
-
-  alert("Voto registrado com sucesso!");
-  listarCandidatos();
-}
-
-
-  listarCandidatos();
-
-
   function mostrarRanking() {
     const candidatos = JSON.parse(localStorage.getItem("candidatos")) || [];
-    const ranking = [...candidatos].sort((a, b) => b.votos - a.votos);
+    const ranking = [...candidatos].sort((a, b) => b.votos - a.votos); 
 
     const tbody = document.getElementById("rankingTabela");
     tbody.innerHTML = "";
@@ -241,7 +151,7 @@
   window.onload = mostrarRanking;
 
   
-
+    
   </script>
 </body>
 </html>

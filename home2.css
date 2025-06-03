@@ -82,6 +82,27 @@ h2 {
   background-color: #019901;
 }
 
+.botao {
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px 25px;
+  border: none;
+  border-radius: 20px;
+  font-size: 16px;
+  cursor: pointer;
+  margin-top: 10px;
+  }
+  
+.botao-sair {
+      background-color: crimson;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+    cursor: pointer;
+}
+
 hr {
   margin: 30px 0;
   border: none;
