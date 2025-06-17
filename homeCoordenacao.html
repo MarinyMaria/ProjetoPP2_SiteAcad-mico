@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Página Inicial</title>
+  <link rel="stylesheet" href="home2.css">
+  <script>
+    const usuario = JSON.parse(localStorage.getItem("usuarioLogado"));
+
+    if (!usuario) {
+      alert("Você precisa estar logado para acessar esta página.");
+      window.location.href = "login.html";
+    }
+
+    const pagina = window.location.pathname;
+
+    if (pagina.includes("homeAluno") && usuario.tipo !== "aluno") {
+    alert("Apenas alunos podem acessar esta página.");
+    window.location.href = "login.html";
+   }
+
+    if (pagina.includes("homeDocente") && usuario.tipo !== "professor") {
+      alert("Apenas docentes podem acessar esta página.");
+      window.location.href = "login.html";
+    }
+
+    if (pagina.includes("homeCoordenacao") && usuario.tipo !== "coordenacao") {
+     alert("Apenas a coordenação pode acessar esta página.");
+     window.location.href = "login.html";
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+     const nomeTag = document.querySelector(".nome");
+      if (nomeTag) {
+       nomeTag.textContent = usuario.nome;
+     }
+    });
+   
+    function logout() {
+    localStorage.removeItem("usuarioLogado");
+    alert("Você saiu da conta.");
+    window.location.href = "login.html";
+  }
+  </script>
+</head>
+<body>
+  <div class="container">
+
+    <div class="topo">
+      <div class="perfil">
+        <div class="icone-user"></div>
+        <div class="texto-user">
+          <p class="boas-vindas">Bem vindo!</p>
+          <p class="nome">Coordenador(a) </p>
+        </div>
+      </div>
+      <button onclick="logout()" class="botao-sair">Sair</button>
+      <div class="notificacao">&#128276;</div>
+    </div>
+
+
+    <section class="avaliacao">
+      <h2>Avaliação Docente</h2>
+      <div class="semestres">
+        <button class="botao-semestre">2024.2</button>
+        <button class="botao-semestre">2025.1</button>
+      </div>
+    </section>
+
+    <hr>
+
+
+    <section class="ranking">
+      <h2>Ranking por semestre</h2>
+      <div class="ranking-lista">
+        <div class="item-ranking">
+          <img src="pablo.jpg" alt="Pessoa 1">
+          <p>2024.2</p>
+        </div>
+        <div class="item-ranking">
+          <img src="havana.png" alt="Pessoa 2">
+          <p>2025.1</p>
+        </div>
+
+      </div>
+    </section>
+    <div style="text-align: center; margin-top: 30px;">
+        <a href="gerenciar.html" class="botao">Gerenciar Usuário</a>
+    </div>
+     <div class="container" style="margin-top: 40px;">
+        <h2>🏆 Ranking de Docentes Mais Votados</h2>
+          <table>
+           <thead>
+              <tr>
+                <th>Posição</th>
+                <th>Nome</th>
+                <th>Votos</th>
+              </tr>
+            </thead>
+            <tbody id="rankingTabela"></tbody>
+          </table>
+    </div>
+    </section>
+  </div>
+  <script>
+     function listarCandidatos() {
+    const container = document.getElementById("listaCandidatos");
+    const candidatos = JSON.parse(localStorage.getItem("candidatos")) || [];
+    container.innerHTML = "";
+
+    if (candidatos.length === 0) {
+      container.innerHTML = "<p>Nenhum docente se elegeu ainda.</p>";
+      return;
+    }
+
+    candidatos.forEach((c, index) => {
+      const div = document.createElement("div");
+      div.style.marginBottom = "10px";
+      div.innerHTML = `
+        <strong>${c.nome}</strong> (${c.votos} votos)
+        <button onclick="votar(${index})" style="margin-left:10px;">Votar</button>
+      `;
+      container.appendChild(div);
+      
+    });
+  }
+  function mostrarRanking() {
+    const candidatos = JSON.parse(localStorage.getItem("candidatos")) || [];
+    const ranking = [...candidatos].sort((a, b) => b.votos - a.votos); 
+
+    const tbody = document.getElementById("rankingTabela");
+    tbody.innerHTML = "";
+
+    if (ranking.length === 0) {
+      tbody.innerHTML = "<tr><td colspan='3'>Nenhum docente foi votado ainda.</td></tr>";
+      return;
+    }
+
+    ranking.forEach((docente, index) => {
+      const row = `
+        <tr>
+          <td>${index + 1}º</td>
+          <td>${docente.nome}</td>
+          <td>${docente.votos}</td>
+        </tr>
+      `;
+      tbody.innerHTML += row;
+    });
+  }
+
+  window.onload = mostrarRanking;
+
+  
+    
+  </script>
+</body>
+</html>

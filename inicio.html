@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Array de Ideias - Avaliação Docente</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(135deg, #a8e58e, #d4f5c2); 
+      font-family: Arial, sans-serif;
+      text-align: center;
+      color: #2e4d2c;
+    }
+
+    .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .logo img {
+      width: 160px;
+      margin-bottom: 20px;
+      animation: fadeIn 1.5s ease-in-out;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+
+    h1 {
+      font-size: 32px;
+      margin-bottom: 10px;
+      color: #1b371b;
+    }
+
+    p.subtitulo {
+      font-size: 18px;
+      margin-bottom: 40px;
+      color: #2c5c2c;
+    }
+
+    .botao {
+      background-color: #388e3c;
+      color: white;
+      border: none;
+      padding: 14px 32px;
+      margin: 10px;
+      border-radius: 30px;
+      font-size: 18px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .botao:hover {
+      background-color: #2e7030;
+    }
+
+    footer {
+      margin-top: 40px;
+      font-size: 13px;
+      color: #3e663e;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="logo">
+      <img src="arraylogo.png.png" alt="Logotipo Array de Ideias">
+    </div>
+
+    <h1>Bem-vindo ao Sistema de Avaliação Docente</h1>
+    <p class="subtitulo">Uma iniciativa do grupo <strong>Array de Ideias</strong> para fortalecer a qualidade do ensino na instituição.</p>
+
+    <a href="login.html" class="botao">Entrar</a>
+    <a href="cadastro.html" class="botao">Cadastrar</a>
+
+    <footer>
+      <p>© 2025 - Array de Ideias | Instituto Federal</p>
+    </footer>
+  </div>
+</body>
+</html>

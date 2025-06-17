@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <title>Coordenação - Gerenciar Usuários</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #a8e58e;
+      margin: 20px;
+    }
+    .container {
+      max-width: 800px;
+      margin: auto;
+      background-color: #fff;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px #aaa;
+    }
+    h2, h3 {
+      text-align: center;
+    }
+    input, select, button {
+      margin: 8px 0;
+      padding: 8px;
+      width: 100%;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      box-sizing: border-box;
+    }
+    button {
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #45a049;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+    th, td {
+      padding: 10px;
+      text-align: left;
+      border-bottom: 1px solid #ccc;
+    }
+    .acoes button {
+      width: auto;
+      margin-right: 5px;
+    }
+   .botao-voltar{
+      background-color: crimson;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      width: auto;
+}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <button onclick="voltarParaHome()" class="botao-voltar">Voltar </button>
+    <h2>Coordenação - Gerenciamento de Usuários</h2>
+
+    <form id="formUsuario" onsubmit="salvarUsuario(event)">
+      <input type="hidden" id="idxEdit" value="" />
+      <input type="text" id="nome" placeholder="Nome completo" required />
+      <input type="email" id="email" placeholder="Email" required />
+      <input type="password" id="senha" placeholder="Senha" required />
+      <select id="tipo" required>
+        <option value="">Selecione o tipo</option>
+        <option value="Professor">Professor</option>
+        <option value="Aluno">Aluno</option>
+        <option value="Coordenacao">Coordenação</option>
+      </select>
+      <button type="submit">Salvar</button>
+      <button type="button" onclick="resetForm()">Cancelar</button>
+    </form>
+
+    <input type="text" id="busca" placeholder="Buscar por nome ou email" />
+    <button onclick="pesquisarUsuario()">Pesquisar</button>
+    <button onclick="listarUsuarios()">Listar Todos</button>
+
+    <select id="filtroTipo">
+      <option value="">-- Filtrar por tipo --</option>
+      <option value="Professor">Professor</option>
+      <option value="Aluno">Aluno</option>
+      <option value="Coordenacao">Coordenação</option>
+    </select>
+    <button onclick="filtrarPorTipo()">Filtrar por tipo</button>
+
+    <h3>Lista de Usuários</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Nome</th>
+          <th>Email</th>
+          <th>Tipo</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody id="tabelaUsuarios"></tbody>
+    </table>
+  </div>
+
+  <script>
+  function voltarParaHome() {
+  window.location.href = "homeCoordenacao.html";
+}
+
+  let usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
+
+  function mostrarTipo(tipo) {
+  if (tipo.toLowerCase() === "coordenacao") {
+    return "Coordenação"; 
+  }
+  return tipo;
+}
+
+  function salvarUsuario(event) {
+    event.preventDefault();
+
+    const nome = document.getElementById("nome").value.trim();
+    const email = document.getElementById("email").value.trim();
+    const senha = document.getElementById("senha").value;
+    const tipo = document.getElementById("tipo").value;
+    const idxEdit = document.getElementById("idxEdit").value;
+
+    if (!nome || !email || !senha || !tipo) {
+      alert("Por favor, preencha todos os campos.");
+      return;
+    }
+
+
+    const tipoPadrao = tipo.toLowerCase() === "coordenacao" ? "Coordenacao" : tipo.charAt(0).toUpperCase() + tipo.slice(1);
+
+    const usuarioLogado = JSON.parse(localStorage.getItem("usuarioLogado"));
+    const tipoLogado = usuarioLogado?.tipo.toLowerCase();
+
+
+    if (tipoLogado === "coordenacao" && tipoPadrao === "Coordenacao") {
+      alert("Você não pode criar outro usuário do tipo Coordenação.");
+      return;
+    }
+
+    const usuario = { nome, email, senha, tipo: tipoPadrao };
+
+    if (idxEdit === "") {
+      usuarios.push(usuario);
+    } else {
+      usuarios[idxEdit] = usuario;
+    }
+
+    localStorage.setItem("usuarios", JSON.stringify(usuarios));
+    resetForm();
+    listarUsuarios();
+  }
+
+  function editarUsuario(index) {
+    const usuario = usuarios[index];
+
+    const usuarioLogado = JSON.parse(localStorage.getItem("usuarioLogado"));
+
+
+    if (
+      usuarioLogado &&
+      usuarioLogado.tipo === "Coordenacao" &&
+      usuario.tipo === "Coordenacao"
+    ) {
+      alert("Você não pode editar outro usuário do tipo Coordenação.");
+      return;
+    }
+
+    document.getElementById("nome").value = usuario.nome;
+    document.getElementById("email").value = usuario.email;
+    document.getElementById("senha").value = usuario.senha;
+    document.getElementById("tipo").value = usuario.tipo;
+    document.getElementById("idxEdit").value = index;
+  }
+
+  function removerUsuario(index) {
+    const usuario = usuarios[index];
+    const usuarioLogado = JSON.parse(localStorage.getItem("usuarioLogado"));
+
+    if (
+      usuarioLogado &&
+      usuarioLogado.tipo === "Coordenacao" &&
+      usuario.tipo === "Coordenacao"
+    ) {
+      alert("Você não pode remover outro usuário do tipo Coordenação.");
+      return;
+    }
+
+    if (confirm("Tem certeza que deseja remover este usuário?")) {
+      usuarios.splice(index, 1);
+      localStorage.setItem("usuarios", JSON.stringify(usuarios));
+      listarUsuarios();
+    }
+  }
+
+  function resetForm() {
+    document.getElementById("formUsuario").reset();
+    document.getElementById("idxEdit").value = "";
+  }
+
+  function listarUsuarios() {
+    const tbody = document.getElementById("tabelaUsuarios");
+    tbody.innerHTML = "";
+
+    if (usuarios.length === 0) {
+      tbody.innerHTML = "<tr><td colspan='4' style='text-align:center;'>Nenhum usuário cadastrado.</td></tr>";
+      return;
+    }
+
+    usuarios.forEach((usuario, index) => {
+      tbody.innerHTML += `
+        <tr>
+          <td>${usuario.nome}</td>
+          <td>${usuario.email}</td>
+          <td>${mostrarTipo(usuario.tipo)}</td>
+          <td class="acoes">
+            <button onclick="editarUsuario(${index})">Editar</button>
+            <button onclick="removerUsuario(${index})">Remover</button>
+          </td>
+        </tr>`;
+    });
+  }
+
+  function pesquisarUsuario() {
+    const termo = document.getElementById("busca").value.trim().toLowerCase();
+    const tbody = document.getElementById("tabelaUsuarios");
+    tbody.innerHTML = "";
+
+    if (!termo) {
+      alert("Digite um termo para buscar.");
+      return;
+    }
+
+    const resultados = usuarios
+      .map((usuario, index) => ({ ...usuario, index }))
+      .filter(u =>
+        u.nome.toLowerCase().includes(termo) ||
+        u.email.toLowerCase().includes(termo)
+      );
+
+    if (resultados.length === 0) {
+      tbody.innerHTML = "<tr><td colspan='4'>Nenhum usuário encontrado.</td></tr>";
+      return;
+    }
+
+    resultados.forEach(usuario => {
+      tbody.innerHTML += `
+        <tr>
+          <td>${usuario.nome}</td>
+          <td>${usuario.email}</td>
+          <td>${mostrarTipo(usuario.tipo)}</td>
+          <td class="acoes">
+            <button onclick="editarUsuario(${usuario.index})">Editar</button>
+            <button onclick="removerUsuario(${usuario.index})">Remover</button>
+          </td>
+        </tr>`;
+    });
+  }
+
+  function filtrarPorTipo() {
+    const tipoSelecionado = document.getElementById("filtroTipo").value;
+    const tbody = document.getElementById("tabelaUsuarios");
+    tbody.innerHTML = "";
+
+    if (!tipoSelecionado) {
+      alert("Selecione um tipo para filtrar.");
+      return;
+    }
+
+    const filtrados = usuarios
+      .map((usuario, index) => ({ ...usuario, index }))
+      .filter(u => u.tipo.toLowerCase() === tipoSelecionado.toLowerCase());
+
+    if (filtrados.length === 0) {
+      tbody.innerHTML = "<tr><td colspan='4'>Nenhum usuário encontrado.</td></tr>";
+      return;
+    }
+
+    filtrados.forEach(usuario => {
+      tbody.innerHTML += `
+        <tr>
+          <td>${usuario.nome}</td>
+          <td>${usuario.email}</td>
+          <td>${mostrarTipo(usuario.tipo)}</td>
+          <td class="acoes">
+            <button onclick="editarUsuario(${usuario.index})">Editar</button>
+            <button onclick="removerUsuario(${usuario.index})">Remover</button>
+          </td>
+        </tr>`;
+    });
+  }
+
+  window.onload = () => {
+    listarUsuarios();
+  };
+
+
+  </script>
+</body>
+</html>

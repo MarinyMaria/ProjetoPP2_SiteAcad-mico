@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <title>Recuperar Senha</title>
+  <link rel="stylesheet" href="estilo.css">
+  
+
+</head>
+<body>
+ 
+
+  <div class="container">
+    <h2>Recuperar Senha</h2>
+    <input type="email" id="email" placeholder="Digite seu e-mail" required />
+    <button onclick="verificarEmail()" class="botao">Verificar</button>
+
+    <div id="novaSenhaContainer" style="margin-top: 20px; display: none;">
+      <input type="password" id="novaSenha" placeholder="Nova senha" required />
+      <button onclick="alterarSenha()" class="botao">Alterar Senha</button>
+    </div>
+  </div>
+
+  <script>
+
+    let usuarios = JSON.parse(localStorage.getItem("usuarios")) || [
+      { email: "professor@escola.com", senha: "123", tipo: "professor" },
+      { email: "aluno@escola.com", senha: "abc", tipo: "aluno" }
+    ];
+
+    let usuarioEncontrado = null;
+
+    function verificarEmail() {
+      const email = document.getElementById("email").value.trim();
+      usuarioEncontrado = usuarios.find(u => u.email === email);
+
+      if (usuarioEncontrado) {
+        alert("E-mail confirmado. Digite a nova senha.");
+        document.getElementById("novaSenhaContainer").style.display = "block";
+      } else {
+        alert("E-mail não encontrado!");
+      }
+    }
+
+  function alterarSenha() {
+  const novaSenha = document.getElementById("novaSenha").value.trim();
+
+  if (novaSenha.length < 4) {
+    alert("A nova senha deve ter pelo menos 4 caracteres.");
+    return;
+  }
+
+  usuarioEncontrado.senha = novaSenha;
+
+
+  usuarioEncontrado.tipo = usuarioEncontrado.tipo
+    ? usuarioEncontrado.tipo.toLowerCase()
+    : "";
+
+  localStorage.setItem("usuarios", JSON.stringify(usuarios));
+
+  alert("Senha alterada com sucesso!");
+
+  setTimeout(() => {
+    window.location.href = "login.html";
+  }, 500);
+}
+  
+  </script>
+
+
+
+</body>
+</html>

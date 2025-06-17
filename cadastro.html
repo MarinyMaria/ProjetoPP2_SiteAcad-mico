@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Cadastro</title>
+  <link rel="stylesheet" href="estilo.css">
+</head>
+<body>
+  <div class="container">
+    <h2>Cadastro</h2>
+    <form onsubmit="cadastrarUsuario(event)">
+      <input type="text" id="nome" placeholder="Nome completo" required><br>
+      <input type="email" id="email" placeholder="Email" required><br>
+      <input type="password" id="senha" placeholder="Senha" required><br>
+      <select id="tipo" required>
+        <option value="">Selecione o tipo de usuário</option>
+        <option value="aluno">Aluno</option>
+        <option value="professor">Professor</option>
+        <option value="coordenacao">Coordenação</option>
+      </select><br>
+      <button type="submit" class="botao">Cadastrar</button>
+    </form>
+
+    <a href="login.html">Já tenho uma conta</a><br>
+    <a href="login.html" class="botao">Entrar</a>
+  </div>
+
+    <script>
+  function cadastrarUsuario(event) {
+    event.preventDefault();
+
+    const nome = document.getElementById("nome").value.trim();
+    const email = document.getElementById("email").value.trim();
+    const senha = document.getElementById("senha").value;
+    const tipo = document.getElementById("tipo").value;
+
+    if (!nome || !email || !senha || !tipo) {
+      alert("Por favor, preencha todos os campos.");
+      return;
+    }
+
+    if (senha.length < 4) {
+      alert("A senha deve ter pelo menos 4 caracteres.");
+      return;
+    }
+
+    const novoUsuario = { nome, email, senha, tipo };
+
+    let usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
+
+    const jaExiste = usuarios.find(u => u.email === email);
+    if (jaExiste) {
+      alert("Este email já está cadastrado.");
+      return;
+    }
+
+    usuarios.push(novoUsuario);
+    localStorage.setItem("usuarios", JSON.stringify(usuarios));
+
+    alert("Cadastro realizado com sucesso!");
+    window.location.href = "login.html";
+  }
+</script>
+</body>
+</html>
